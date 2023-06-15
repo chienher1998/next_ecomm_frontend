@@ -1,5 +1,6 @@
 <script>
 	import { authenticateUser } from '../../../utils/auth.js';
+	import { goto } from '$app/navigation';
 
 	async function logInUser(evt) {
 		evt.preventDefault();
@@ -10,7 +11,7 @@
 		const res = await authenticateUser(userData.email, userData.password);
 
 		if (res.success) {
-			console.log('logged in');
+			goto('/')
 		} else {
 			console.log('logged in failed');
 		}
@@ -23,14 +24,14 @@
 			<div class="col-1" />
 			<div class="col-lg-5">
 				<div
-					class="card cascading-right rounded-5 mt-14"
+					class="card cascading-right rounded-5"
 					style="
               background: hsla(0, 0%, 100%, 0.55);
               backdrop-filter: blur(30px);  
               "
 				>
 					<div class="card-body p-5 shadow-5">
-						<h2 class="fw-bold mb-5 text-center">Login</h2>
+						<h2 class="fw-bold text-uppercase mb-5 text-center">Login</h2>
 						<form on:submit={logInUser}>
 							<div class="form-outline mb-4">
 								<label class="form-label" for="form3Example3">Email address</label>
@@ -68,7 +69,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-6 mb-3">
+			<div class="col-lg-6 mb-3 invisible-sm">
 				<img
 					src="https://static01.nyt.com/images/2021/03/11/arts/11nft-explain-1/merlin_184196631_939fb22d-b909-4205-99d9-b464fb961d32-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
 					class="w-100 rounded-4 shadow-4"
@@ -88,8 +89,15 @@
 	}
 
 	@media (max-width: 991.98px) {
+		body{
+			height: 95vh;
+		}
 		.cascading-right {
+			margin-top: 20px;
 			margin-right: 0;
+		}
+		img{
+			display: none;
 		}
 	}
 	.btn-raised {

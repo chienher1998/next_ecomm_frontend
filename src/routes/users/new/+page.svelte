@@ -2,6 +2,7 @@
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
 
+	let formErrors = {};
 
 	async function createUser(evt) {
 		evt.preventDefault();
@@ -21,9 +22,12 @@
 			body: JSON.stringify(userData)
 		});
 		if (resp.status == 200) {
-			goto('/users/login')
+			goto('/users/login');
 			console.log('sign up succeed');
 		} else {
+			const res = resp.json();
+			console.log(res)
+			formErrors = res.error;
 			throw 'Sign up succeeded but authentication failed';
 		}
 	}
@@ -34,7 +38,7 @@
 	style="background-image: url('https://gmo-research.com/application/files/6216/4697/1440/NFTs_and_Metaverse_Shutterstock.jpg'); background-size: cover; background-position: center;"
 >
 	<div class="mask d-flex align-items-center h-100">
-		<div class="container h-100 my-5">
+		<div class="container h-100">
 			<div class="row d-flex justify-content-center align-items-center h-100">
 				<div class="col-12 col-md-9 col-lg-7 col-xl-6">
 					<div
@@ -45,7 +49,7 @@
 					"
 					>
 						<div class="card-body p-5">
-							<h2 class="text-uppercase text-center mb-5">Create an account</h2>
+							<h2 class="text-uppercase fw-bold text-center mb-5">Create an account</h2>
 
 							<form on:submit={createUser}>
 								<div class="mb-4 form-floating">
@@ -53,7 +57,12 @@
 									<label for="floatingInput" class="text-muted">Enter your username</label>
 								</div>
 								<div class="mb-4 form-floating">
-									<input type="email" class="form-control" name="email" placeholder="johndoe" />
+									<input type="email" class="form-control" name="email" placeholder="email" />
+									{#if 'email' in formErrors}
+										<label class="label" for="email">
+											<span>{formErrors.email}</span>
+										</label>
+									{/if}
 									<label for="floatingInput" class="text-muted">Enter email address</label>
 								</div>
 
