@@ -2,6 +2,8 @@
 	import { authenticateUser } from '../../../utils/auth.js';
 	import { goto } from '$app/navigation';
 
+	let formErrors = {};
+
 	async function logInUser(evt) {
 		evt.preventDefault();
 		const userData = {
@@ -50,6 +52,10 @@
 									class="form-control p-3"
 									placeholder="min of 6 characters"
 								/>
+								{#if 'password' in formErrors}
+								<span class="text-danger">{formErrors}</span
+								>
+							{/if}
 							</div>
 							<div class="d-flex justify-content-center">
 								<button

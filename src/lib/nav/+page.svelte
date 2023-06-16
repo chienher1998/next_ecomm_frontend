@@ -10,7 +10,7 @@
 <nav class="navbar shadow-lg rounded navbar-dark bg-dark">
 	<div class="container-fluid">
 		<a href="/" class="navbar-brand fw-bold ms-2"
-			><img height="50px" src="icons8-safe-100.png" alt="icon" />PixelVault</a
+			><img src="icons8-safe-100.png" height="55px" alt="icon">PixelVault</a
 		>
 		<div class="navbar-nav">
 			<div class="dropdown">

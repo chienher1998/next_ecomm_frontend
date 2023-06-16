@@ -6,6 +6,10 @@
 
 	async function createUser(evt) {
 		evt.preventDefault();
+		if (evt.target['password'].value != evt.target['password-confirmation'].value) {
+			formErrors['password'] = { message: 'Password confirmation does not match' };
+			return;
+		}
 
 		const userData = {
 			username: evt.target['username'].value,
@@ -25,8 +29,7 @@
 			goto('/users/login');
 			console.log('sign up succeed');
 		} else {
-			const res = resp.json();
-			console.log(res)
+			const res = await resp.json();
 			formErrors = res.error;
 			throw 'Sign up succeeded but authentication failed';
 		}
@@ -53,15 +56,25 @@
 
 							<form on:submit={createUser}>
 								<div class="mb-4 form-floating">
-									<input type="text" class="form-control" name="username" placeholder="johndoe" />
+									<input
+										type="text"
+										class="form-control"
+										name="username"
+										placeholder="johndoe"
+										required
+									/>
 									<label for="floatingInput" class="text-muted">Enter your username</label>
 								</div>
 								<div class="mb-4 form-floating">
-									<input type="email" class="form-control" name="email" placeholder="email" />
+									<input
+										type="email"
+										class="form-control"
+										name="email"
+										placeholder="email"
+										required
+									/>
 									{#if 'email' in formErrors}
-										<label class="label" for="email">
-											<span>{formErrors.email}</span>
-										</label>
+										<span class="text-danger">{formErrors.email}</span>
 									{/if}
 									<label for="floatingInput" class="text-muted">Enter email address</label>
 								</div>
@@ -73,7 +86,12 @@
 										class="form-control"
 										placeholder="Create Password"
 										aria-labelledby="passwordHelpBlock"
+										required
 									/>
+									{#if 'password' in formErrors}
+										<span class="text-danger">{formErrors['password'].message}</span
+										>
+									{/if}
 									<label for="floatingInput" class="text-muted">Create Password</label>
 								</div>
 
@@ -84,6 +102,7 @@
 										class="form-control"
 										placeholder="Confirm Password"
 										aria-labelledby="passwordHelpBlock"
+										required
 									/>
 									<label for="floatingInput" class="text-muted">Repeat Password</label>
 								</div>
