@@ -10,12 +10,12 @@
 			email: evt.target['email'].value,
 			password: evt.target['password'].value
 		};
-		const res = await authenticateUser(userData.email, userData.password);
+		const resp = await authenticateUser(userData.email, userData.password);
 
-		if (res.success) {
-			goto('/')
+		if (resp.success) {
+			goto('/');
 		} else {
-			console.log('logged in failed');
+			formErrors = resp.res;
 		}
 	}
 </script>
@@ -52,10 +52,9 @@
 									class="form-control p-3"
 									placeholder="min of 6 characters"
 								/>
-								{#if 'password' in formErrors}
-								<span class="text-danger">{formErrors}</span
-								>
-							{/if}
+								{#if 'error' in formErrors}
+									<span class="text-danger">{formErrors.error}</span>
+								{/if}
 							</div>
 							<div class="d-flex justify-content-center">
 								<button
@@ -95,14 +94,14 @@
 	}
 
 	@media (max-width: 991.98px) {
-		body{
+		body {
 			height: 95vh;
 		}
 		.cascading-right {
 			margin-top: 20px;
 			margin-right: 0;
 		}
-		img{
+		img {
 			display: none;
 		}
 	}

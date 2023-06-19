@@ -12,7 +12,7 @@
 		}
 
 		const userData = {
-			username: evt.target['username'].value,
+			name: evt.target['username'].value,
 			email: evt.target['email'].value,
 			password: evt.target['password'].value
 		};
