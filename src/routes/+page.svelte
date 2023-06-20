@@ -1,6 +1,36 @@
 <script>
 	export let data;
 	import humanize from 'humanize-plus';
+
+	function calDate(input) {
+		const creationDate = new Date(input);
+		const currentDate = new Date();
+		const timeDiff = currentDate - creationDate; //returns miliseconds
+
+		let timeElapsed;
+		if (timeDiff >= 86400000) {
+			//a day 24hrs in miliseconds
+			// If more than 24 hours have passed, display the number of days
+			const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); //24 hours * 60 minutes * 60 seconds * 1000 milliseconds = 86400000 milliseconds
+			timeElapsed = `${daysDiff} day ago`;
+		} else if (timeDiff >= 3600000) {
+			//convert 60mins to miliseconds
+			// If more than 1 hour has passed, display the number of hours
+			const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+			timeElapsed = `${hoursDiff} hours ago`;
+		} else if (timeDiff >= 60000) {
+			//convert 60sec to miliseconds
+			// If more than 1 minute has passed, display the number of minutes
+			const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+			timeElapsed = `${minutesDiff} miniutes ago`;
+		} else {
+			// Display the number of seconds
+			const secondsDiff = Math.floor(timeDiff / 1000);
+			timeElapsed = `${secondsDiff} seconds ago `;
+		}
+
+		return timeElapsed;
+	}
 </script>
 
 <svelte:head>
@@ -16,7 +46,7 @@
 				<div class="card text-start shadow rounded-5 text-light " style="background-color:#303339;">
 					<!-- svelte-ignore a11y-missing-attribute -->
 					<a href="#!" class="overflow-hidden rounded-top-5" style="height:300px;" >
-						<img src={image.imageFile} class="w-100 h-100" style=" object-fit: cover"  />
+						<img src={image.imageFile} class="w-100 h-100" style="object-fit: cover"  />
 					</a>
 					<div class="card-body d-flex">
 						<!-- svelte-ignore a11y-invalid-attribute -->
@@ -50,7 +80,7 @@
 									/></svg
 								>{humanize.formatNumber(image.price)} ETH
 							</h6>
-							<p class="text-secondary">2 days ago</p>
+							<p class="text-secondary">{calDate(image.createdAt)}</p>
 						</div>
 					</div>
 				</div>
