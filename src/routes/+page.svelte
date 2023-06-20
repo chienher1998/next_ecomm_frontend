@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	import humanize from 'humanize-plus';
+	// import humanize from 'humanize-plus';
 
 	function calDate(input) {
 		const creationDate = new Date(input);
@@ -43,10 +43,10 @@
 	<div class="row">
 		{#each data.images as image}
 			<div class="col-lg-4 col-md-6 mb-4 col-12">
-				<div class="card text-start shadow rounded-5 text-light " style="background-color:#303339;">
+				<div class="card text-start shadow rounded-5 text-light" style="background-color:#303339;">
 					<!-- svelte-ignore a11y-missing-attribute -->
-					<a href="#!" class="overflow-hidden rounded-top-5" style="height:300px;" >
-						<img src={image.imageFile} class="w-100 h-100" style="object-fit: cover"  />
+					<a href="#!" class="overflow-hidden rounded-top-5" style="height:300px;">
+						<img src={image.imageFile} class="w-100 h-100" style="object-fit: cover" />
 					</a>
 					<div class="card-body d-flex">
 						<!-- svelte-ignore a11y-invalid-attribute -->
@@ -78,7 +78,7 @@
 										d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
 										fill="white"
 									/></svg
-								>{humanize.formatNumber(image.price)} ETH
+								>{image.price} ETH
 							</h6>
 							<p class="text-secondary">{calDate(image.createdAt)}</p>
 						</div>
@@ -88,3 +88,354 @@
 		{/each}
 	</div>
 </div>
+
+<style>
+	.card:hover {
+		transform: scale(1.05); /* Enlarge the card on hover */
+		transition: 0.3s ease;
+	}
+	.card:hover:before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		-webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+		box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+		z-index: -1;
+		-webkit-animation-name: gradient-shadow;
+		animation-name: gradient-shadow;
+		-webkit-animation-timing-function: ease;
+		animation-timing-function: ease;
+		-webkit-animation-duration: 2s;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+		border-radius: 35px;
+	}
+	@-webkit-keyframes yellow-shadow {
+		0% {
+			top: 0;
+			left: 0;
+		}
+		25% {
+			top: 50%;
+			left: 0;
+		}
+		50% {
+			top: 50%;
+			left: 50%;
+		}
+		75% {
+			top: 0;
+			left: 50%;
+		}
+		100% {
+			top: 0;
+			left: 0;
+		}
+	}
+
+	@keyframes yellow-shadow {
+		0% {
+			top: 0;
+			left: 0;
+		}
+		25% {
+			top: 50%;
+			left: 0;
+		}
+		50% {
+			top: 50%;
+			left: 50%;
+		}
+		75% {
+			top: 0;
+			left: 50%;
+		}
+		100% {
+			top: 0;
+			left: 0;
+		}
+	}
+
+	@-webkit-keyframes cyan-shadow {
+		0% {
+			right: 0;
+			bottom: 0;
+		}
+		25% {
+			right: 0;
+			bottom: 50%;
+		}
+		50% {
+			right: 50%;
+			bottom: 50%;
+		}
+		75% {
+			right: 50%;
+			bottom: 0;
+		}
+		100% {
+			right: 0;
+			bottom: 0;
+		}
+	}
+
+	@keyframes cyan-shadow {
+		0% {
+			right: 0;
+			bottom: 0;
+		}
+		25% {
+			right: 0;
+			bottom: 50%;
+		}
+		50% {
+			right: 50%;
+			bottom: 50%;
+		}
+		75% {
+			right: 50%;
+			bottom: 0;
+		}
+		100% {
+			right: 0;
+			bottom: 0;
+		}
+	}
+
+	@-webkit-keyframes gradient-shadow {
+		0% {
+			-webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+			box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+		}
+		20% {
+			-webkit-box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+			box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+		}
+		40% {
+			-webkit-box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+			box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+		}
+		60% {
+			-webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+			box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+		}
+		80% {
+			-webkit-box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+			box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+		}
+		100% {
+			-webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+			box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+		}
+	}
+
+	@keyframes gradient-shadow {
+		0% {
+			-webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+			box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+		}
+		20% {
+			-webkit-box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+			box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+		}
+		40% {
+			-webkit-box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+			box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+		}
+		60% {
+			-webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+			box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+		}
+		80% {
+			-webkit-box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+			box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+		}
+		100% {
+			-webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+			box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+		}
+	}
+
+	@-webkit-keyframes half-yellow-shadow {
+		0% {
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 50%;
+		}
+		16.66% {
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 100%;
+		}
+		32.32% {
+			top: 0;
+			left: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		49.98% {
+			top: 50%;
+			left: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		66.64% {
+			top: 50%;
+			left: 0;
+			height: 50%;
+			width: 100%;
+		}
+		83.3% {
+			top: 50%;
+			left: 0;
+			height: 50%;
+			width: 50%;
+		}
+		100% {
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 50%;
+		}
+	}
+
+	@keyframes half-yellow-shadow {
+		0% {
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 50%;
+		}
+		16.66% {
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 100%;
+		}
+		32.32% {
+			top: 0;
+			left: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		49.98% {
+			top: 50%;
+			left: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		66.64% {
+			top: 50%;
+			left: 0;
+			height: 50%;
+			width: 100%;
+		}
+		83.3% {
+			top: 50%;
+			left: 0;
+			height: 50%;
+			width: 50%;
+		}
+		100% {
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 50%;
+		}
+	}
+
+	@-webkit-keyframes half-cyan-shadow {
+		0% {
+			bottom: 0;
+			right: 0;
+			height: 50%;
+			width: 50%;
+		}
+		16.66% {
+			bottom: 0;
+			right: 0;
+			height: 50%;
+			width: 100%;
+		}
+		32.32% {
+			bottom: 0;
+			right: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		49.98% {
+			bottom: 50%;
+			right: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		66.64% {
+			bottom: 50%;
+			right: 0;
+			height: 50%;
+			width: 100%;
+		}
+		83.3% {
+			bottom: 50%;
+			right: 0;
+			height: 50%;
+			width: 50%;
+		}
+		100% {
+			bottom: 0;
+			right: 0;
+			height: 50%;
+			width: 50%;
+		}
+	}
+
+	@keyframes half-cyan-shadow {
+		0% {
+			bottom: 0;
+			right: 0;
+			height: 50%;
+			width: 50%;
+		}
+		16.66% {
+			bottom: 0;
+			right: 0;
+			height: 50%;
+			width: 100%;
+		}
+		32.32% {
+			bottom: 0;
+			right: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		49.98% {
+			bottom: 50%;
+			right: 50%;
+			height: 50%;
+			width: 50%;
+		}
+		66.64% {
+			bottom: 50%;
+			right: 0;
+			height: 50%;
+			width: 100%;
+		}
+		83.3% {
+			bottom: 50%;
+			right: 0;
+			height: 50%;
+			width: 50%;
+		}
+		100% {
+			bottom: 0;
+			right: 0;
+			height: 50%;
+			width: 50%;
+		}
+	}
+</style>

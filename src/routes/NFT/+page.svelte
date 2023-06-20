@@ -52,7 +52,7 @@
 		</div>
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">Price</label>
-			<input type="number" class="form-control" name="price" placeholder="Enter your price" step=".01">
+			<input type="number" class="form-control" name="price" placeholder="Enter your price" step="0.00001">
 		  </div>
 
 		<input type="file" name="file" />

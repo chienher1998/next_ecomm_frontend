@@ -21,6 +21,17 @@ export function getUserId() {
 	return null;
 }
 
+export function getUserName() {
+	const auth = localStorage.getItem('auth');
+	if (auth) {
+		const parsedAuth = JSON.parse(auth);
+		const username = parsedAuth['userName'];
+		const capLetter = username.charAt(0).toUpperCase() + username.slice(1);
+		return capLetter;
+	}
+	return null;
+}
+
 export function getTokenFromLocalStorage() {
 	const auth = localStorage.getItem('auth');
 	if (auth) {
@@ -28,7 +39,6 @@ export function getTokenFromLocalStorage() {
 	}
 	return null;
 }
-
 
 export async function isLoggedIn() {
 	if (!getTokenFromLocalStorage()) {
@@ -56,7 +66,9 @@ export async function authenticateUser(email, password) {
 		localStorage.setItem(
 			'auth',
 			JSON.stringify({
-				token: res.accessToken
+				token: res.accessToken,
+				id: res.userId,
+				userName: res.userName
 			})
 		);
 		isLoggedInStore.set(true);

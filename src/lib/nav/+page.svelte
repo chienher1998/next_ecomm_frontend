@@ -1,19 +1,28 @@
 <script>
-	import { isLoggedInStore, logOut } from '../../utils/auth';
+	import { isLoggedInStore, logOut, getUserName } from '../../utils/auth.js';
 	import { goto } from '$app/navigation';
+	// import { onMount } from 'svelte/types/runtime/internal/lifecycle.js';
+
 	const logOutFunc = () => {
 		logOut();
 		goto('/');
 	};
+
 </script>
 
 <nav class="navbar shadow-lg rounded navbar-dark bg-dark">
 	<div class="container-fluid">
 		<a href="/" class="navbar-brand fw-bold ms-2"
-			><img src="rsz_1icons8-safe-100.png" alt="icon">PixelVault</a
+			><img src="rsz_1icons8-safe-100.png" alt="icon" />PixelVault</a
 		>
-		<div class="navbar-nav">
-			<div class="dropdown">
+
+		<div class="navbar-nav d-flex flex-row">
+			{#if $isLoggedInStore}
+				<p class="text-white my-2" style="cursor: default">{getUserName()}</p>
+			{:else}
+				<p class="text-white my-2" style="cursor: default" />
+			{/if}
+			<div class="dropdown mx-md-2 mx-0">
 				<button
 					class="btn dropdown-toggle"
 					type="button"
@@ -36,7 +45,6 @@
 						/>
 					</svg>
 				</button>
-
 				<ul
 					class="dropdown-menu dropdown-menu-end position-absolute"
 					aria-labelledby="dropdownMenuButton1"
