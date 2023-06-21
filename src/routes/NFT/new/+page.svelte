@@ -1,8 +1,8 @@
 <script>
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
-	import { uploadMedia } from '../../utils/s3-uploader';
-	import { getTokenFromLocalStorage } from '../../utils/auth.js';
+	import { uploadMedia } from '../../../utils/s3-uploader';
+	import { getTokenFromLocalStorage } from '../../../utils/auth.js';
 
 	let formErrors = {};
 
@@ -44,21 +44,27 @@
 	<form on:submit|preventDefault={uploadImage} class="text-white">
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">Image Title</label>
-			<input type="text" class="form-control" name="imageTitle" placeholder="Name your NFT">
-		  </div>
+			<input type="text" class="form-control" name="imageTitle" placeholder="Name your NFT" />
+		</div>
 		<div class="mb-3">
 			<label for="exampleFormControlTextarea1" class="form-label">Description</label>
 			<textarea class="form-control" name="desc" rows="3" placeholder="Enter your description" />
 		</div>
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">Price</label>
-			<input type="number" class="form-control" name="price" placeholder="Enter your price" step="0.00001">
-		  </div>
+			<input
+				type="number"
+				class="form-control"
+				name="price"
+				placeholder="Enter your price"
+				step="0.00001"
+			/>
+		</div>
 
-		<input type="file" name="file" />
+		<input type="file" name="file"  />
 		<!-- {#if 'file' in formErrors}
-			<span class="text-danger">{formErrors.file}</span>
-		{/if} -->
-		<button class="btn-primary">Upload</button>
+				<span class="text-danger">{formErrors.file}</span>
+			{/if} -->
+		<button class="btn btn-primary">Upload</button>
 	</form>
 </div>

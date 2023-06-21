@@ -1,6 +1,5 @@
 <script>
 	export let data;
-	// import humanize from 'humanize-plus';
 
 	function calDate(input) {
 		const creationDate = new Date(input);
@@ -33,9 +32,9 @@
 	}
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
 	<script src="/aws-sdk-s3.min.js"></script>
-</svelte:head>
+</svelte:head> -->
 
 <div class="text-center container py-5 vh-100 text-light">
 	<h4 class="mt-4 mb-5"><strong>Top Collectibles</strong></h4>
@@ -45,12 +44,12 @@
 			<div class="col-lg-4 col-md-6 mb-4 col-12">
 				<div class="card text-start shadow rounded-5 text-light" style="background-color:#303339;">
 					<!-- svelte-ignore a11y-missing-attribute -->
-					<a href="#!" class="overflow-hidden rounded-top-5" style="height:300px;">
+					<a href="/NFT/{image.id}" class="overflow-hidden rounded-top-5" style="height:300px;">
 						<img src={image.imageFile} class="w-100 h-100" style="object-fit: cover" />
 					</a>
 					<div class="card-body d-flex">
 						<!-- svelte-ignore a11y-invalid-attribute -->
-						<div class="me-auto">
+						<div class="me-auto overflow-hidden" style="width: 70%;">
 							<a href="" class="text-reset text-decoration-none">
 								<h5 class="card-title mb-2 fw-bold">
 									{image.title}
@@ -90,25 +89,21 @@
 </div>
 
 <style>
-	.card:hover {
-		transform: scale(1.05); /* Enlarge the card on hover */
+	img {
 		transition: 0.3s ease;
+	}
+	img:hover {
+		transform: scale(1.2); /* Enlarge the card on hover */
 	}
 	.card:hover:before {
 		content: '';
 		position: absolute;
-		left: 0;
-		top: 0;
 		width: 100%;
 		height: 100%;
-		-webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
 		box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
 		z-index: -1;
-		-webkit-animation-name: gradient-shadow;
 		animation-name: gradient-shadow;
-		-webkit-animation-timing-function: ease;
 		animation-timing-function: ease;
-		-webkit-animation-duration: 2s;
 		animation-duration: 2s;
 		animation-iteration-count: infinite;
 		border-radius: 35px;

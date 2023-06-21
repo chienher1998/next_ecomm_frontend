@@ -7,16 +7,14 @@
 		logOut();
 		goto('/');
 	};
-
 </script>
 
-<nav class="navbar shadow-lg rounded navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg shadow-lg rounded navbar-dark bg-dark">
 	<div class="container-fluid">
 		<a href="/" class="navbar-brand fw-bold ms-2"
-			><img src="rsz_1icons8-safe-100.png" alt="icon" />PixelVault</a
+			><img src="/rsz_1icons8-safe-100.png" alt="icon" />PixelVault</a
 		>
-
-		<div class="navbar-nav d-flex flex-row">
+		<div class="d-flex flex-row">
 			{#if $isLoggedInStore}
 				<p class="text-white my-2" style="cursor: default">{getUserName()}</p>
 			{:else}
@@ -51,7 +49,7 @@
 				>
 					{#if $isLoggedInStore}
 						<!-- svelte-ignore a11y-invalid-attribute -->
-						<li><a class="dropdown-item" href="/NFT/">Post NFT</a></li>
+						<li><a class="dropdown-item" href="/NFT/new">Post NFT</a></li>
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-missing-attribute -->
 						<li><a class="dropdown-item" on:click={logOutFunc}>Logout</a></li>
