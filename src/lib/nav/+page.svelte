@@ -9,7 +9,7 @@
 	};
 </script>
 
-<nav class="navbar navbar-expand-lg shadow-lg rounded navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg shadow-lg rounded navbar-dark bg-dark position-sticky top-0 z-2">
 	<div class="container-fluid">
 		<a href="/" class="navbar-brand fw-bold ms-2"
 			><img src="/rsz_1icons8-safe-100.png" alt="icon" />PixelVault</a

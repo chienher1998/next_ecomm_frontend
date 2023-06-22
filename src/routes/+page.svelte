@@ -43,9 +43,16 @@
 	<div class="row">
 		{#each data.images as image}
 			<div class="col-lg-4 col-md-6 mb-4 col-12">
-				<div class="card text-start shadow rounded-5 text-light" style="background-color:#303339;">
+				<div
+					class="card text-start shadow rounded-5 text-light z-1"
+					style="background-color:#303339; position:relative;"
+				>
 					<!-- svelte-ignore a11y-missing-attribute -->
-					<a href="/NFT/{image.id}" class="overflow-hidden rounded-top-5" style="height:300px;">
+					<a
+						href="/NFT/{image.id}"
+						class="overflow-hidden rounded-top-5"
+						style="height:300px; index-z:-5;"
+					>
 						<img src={image.imageFile} class="w-100 h-100" style="object-fit: cover" />
 					</a>
 					<div class="card-body d-flex">

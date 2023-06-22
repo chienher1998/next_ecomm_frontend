@@ -1,6 +1,7 @@
 <script>
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
+	import Background from '../../../lib/bg/+page.svelte'
 
 	let formErrors = {};
 
@@ -36,98 +37,93 @@
 	}
 </script>
 
-<section
-	class="vh-100"
-	style="background-image: url('https://gmo-research.com/application/files/6216/4697/1440/NFTs_and_Metaverse_Shutterstock.jpg'); background-size: cover; background-position: center;"
->
-	<div class="mask d-flex align-items-center h-100">
-		<div class="container h-100">
-			<div class="row d-flex justify-content-center align-items-center h-100">
-				<div class="col-12 col-md-9 col-lg-7 col-xl-6">
-					<div
-						class="card rounded-5"
-						style=";
+<Background/>
+<div class="mask d-flex align-items-center h-100 m-5">
+	<div class="container h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12 col-md-9 col-lg-7 col-xl-6">
+				<div
+					class="card rounded-5"
+					style=";
 					background: hsla(0, 0%, 100%, 0.55);
 					backdrop-filter: blur(30px);
 					"
-					>
-						<div class="card-body p-5">
-							<h2 class="text-uppercase fw-bold text-center mb-5">Create an account</h2>
+				>
+					<div class="card-body p-5">
+						<h2 class="text-uppercase fw-bold text-center mb-5">Create an account</h2>
 
-							<form on:submit={createUser}>
-								<div class="mb-4 form-floating">
-									<input
-										type="text"
-										class="form-control"
-										name="username"
-										placeholder="johndoe"
-										required
-									/>
-									<label for="floatingInput" class="text-muted">Enter your username</label>
-								</div>
-								<div class="mb-4 form-floating">
-									<input
-										type="email"
-										class="form-control"
-										name="email"
-										placeholder="email"
-										required
-									/>
-									{#if 'email' in formErrors}
-										<span class="text-danger">{formErrors.email}</span>
-									{/if}
-									<label for="floatingInput" class="text-muted">Enter email address</label>
-								</div>
+						<form on:submit={createUser}>
+							<div class="mb-4 form-floating">
+								<input
+									type="text"
+									class="form-control"
+									name="username"
+									placeholder="johndoe"
+									required
+								/>
+								<label for="floatingInput" class="text-muted">Enter your username</label>
+							</div>
+							<div class="mb-4 form-floating">
+								<input
+									type="email"
+									class="form-control"
+									name="email"
+									placeholder="email"
+									required
+								/>
+								{#if 'email' in formErrors}
+									<span class="text-danger">{formErrors.email}</span>
+								{/if}
+								<label for="floatingInput" class="text-muted">Enter email address</label>
+							</div>
 
-								<div class="mb-3 form-floating">
-									<input
-										type="password"
-										name="password"
-										class="form-control"
-										placeholder="Create Password"
-										aria-labelledby="passwordHelpBlock"
-										required
-									/>
-									{#if 'password' in formErrors}
-										<span class="text-danger">{formErrors['password'].message}</span
-										>
-									{/if}
-									<label for="floatingInput" class="text-muted">Create Password</label>
-								</div>
+							<div class="mb-3 form-floating">
+								<input
+									type="password"
+									name="password"
+									class="form-control"
+									placeholder="Create Password"
+									aria-labelledby="passwordHelpBlock"
+									required
+								/>
+								{#if 'password' in formErrors}
+									<span class="text-danger">{formErrors['password'].message}</span>
+								{/if}
+								<label for="floatingInput" class="text-muted">Create Password</label>
+							</div>
 
-								<div class="mb-5 form-floating">
-									<input
-										type="password"
-										name="password-confirmation"
-										class="form-control"
-										placeholder="Confirm Password"
-										aria-labelledby="passwordHelpBlock"
-										required
-									/>
-									<label for="floatingInput" class="text-muted">Repeat Password</label>
-								</div>
+							<div class="mb-5 form-floating">
+								<input
+									type="password"
+									name="password-confirmation"
+									class="form-control"
+									placeholder="Confirm Password"
+									aria-labelledby="passwordHelpBlock"
+									required
+								/>
+								<label for="floatingInput" class="text-muted">Repeat Password</label>
+							</div>
 
-								<div class="d-flex justify-content-center">
-									<button
-										type="submit"
-										class="btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
-										>Register</button
-									>
-								</div>
+							<div class="d-flex justify-content-center">
+								<button
+									type="submit"
+									class="btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
+									>Register</button
+								>
+							</div>
 
-								<p class="text-center text-muted mt-5 mb-0">
-									Have already an account? <a href="/users/login" class="fw-bold text-body"
-										><u>Login here</u></a
-									>
-								</p>
-							</form>
-						</div>
+							<p class="text-center text-muted mt-5 mb-0">
+								Have already an account? <a href="/users/login" class="fw-bold text-body"
+									><u>Login here</u></a
+								>
+							</p>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 
 <style>
 	.btn-raised {
