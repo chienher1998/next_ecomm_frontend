@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	import humanize from 'humanize-plus';
 
 	function calDate(input) {
 		const creationDate = new Date(input);
@@ -77,7 +78,7 @@
 										d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
 										fill="white"
 									/></svg
-								>{image.price} ETH
+								>{humanize.formatNumber(image.price, 2)} ETH
 							</h6>
 							<p class="text-secondary">{calDate(image.createdAt)}</p>
 						</div>

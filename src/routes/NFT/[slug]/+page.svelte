@@ -1,23 +1,39 @@
 <script>
 	export let data;
 	import SvelteMarkdown from 'svelte-markdown';
+	import { goto } from '$app/navigation';
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+	import humanize from 'humanize-plus';
+	import axios from 'axios';
+
+	async function getEthToUsdRate() {
+		try {
+			const response = await axios.get(
+				'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+			);
+			const ethToUsdRate = response.data.ethereum.usd;
+			const ethAmount = data.image.price;
+			const res = ethAmount * ethToUsdRate;
+			return res;
+		} catch (error) {
+			console.error('Error fetching ETH to USD rate:', error);
+			throw error;
+		}
+	}
 
 	async function checkOut(id) {
-		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/create-checkout-session', {
+		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/create-checkout-session/${id}`, {
 			method: 'POST',
 			mode: 'cors',
 			headers: {
 				'Content-Type': 'application/json'
 				// Authorization: `Bearer ${getTokenFromLocalStorage()}`
 			},
-			body: JSON.stringify(id)
+			body: JSON.stringify({ id })
 		});
-
 		const res = await resp.json();
-		console.log(res);
-		if (resp.status == 200) {
-			goto(res.url);
+		if (resp.status === 200) {
+			goto(res);
 		}
 	}
 </script>
@@ -29,7 +45,7 @@
 			<img src={data.image.imageFile} alt="image" class="w-100 h-100" style="object-fit:cover" />
 		</div>
 	</div>
-	<div class="ms-5 w-100" style="cursor: default;">
+	<div class="ms-5 w-100" style="cursor: default;" >
 		<h1>
 			{data.image.title}
 			<img style="height: 25px;" class="mb-1" src="/icons8-verified-48.png" alt="verified" />
@@ -43,20 +59,28 @@
 		>
 			<p style="color:#8A939B">Current Price</p>
 			<div class="d-flex justify-content-between">
-				<p class="fw-bold" style="font-size: 2em;">
-					<svg
-						style="color: white; height: 30px;"
-						class="me-2"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 40 325 512"
-						><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path
-							d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
-							fill="white"
-						/></svg
-					>{data.image.price} ETH
-				</p>
+				<div>
+					<p class="fw-bold" style="font-size: 2em;">
+						<svg
+							style="color: white; height: 30px;"
+							class="me-2"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 40 325 512"
+							><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path
+								d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
+								fill="white"
+							/></svg
+						>{humanize.formatNumber(data.image.price, 2)} ETH
+					</p>
+					{#await getEthToUsdRate()}
+						<p style="color:#8A939B">Loading...</p>
+					{:then res}
+						<p class="ms-1" style="color:#8A939B">$ {humanize.formatNumber(res, 2)}</p>
+					{/await}
+				</div>
 				<button
 					class="btn btn-primary fw-bold rounded-4 w-50 me-5"
+					style="height: 70px"
 					on:click={checkOut(data.image.id)}>Buy now</button
 				>
 			</div>
