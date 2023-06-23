@@ -1,7 +1,6 @@
 <script>
 	import { isLoggedInStore, logOut, getUserName } from '../../utils/auth.js';
 	import { goto } from '$app/navigation';
-	// import { onMount } from 'svelte/types/runtime/internal/lifecycle.js';
 
 	const logOutFunc = () => {
 		logOut();
@@ -18,7 +17,7 @@
 			{#if $isLoggedInStore}
 				<p class="text-white my-2" style="cursor: default">{getUserName()}</p>
 			{:else}
-				<p class="text-white my-2" style="cursor: default" />
+				<p class="text-white my-2" style="cursor: default">Welcome</p>
 			{/if}
 			<div class="dropdown mx-md-2 mx-0">
 				<button

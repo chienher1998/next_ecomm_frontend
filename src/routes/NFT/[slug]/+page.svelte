@@ -38,61 +38,70 @@
 	}
 </script>
 
-<div class="container my-5 text-white d-flex">
-	<div>
-		<div id="card" class="overflow-hidden rounded-5" style="width:500px; height:600px;">
+<div class="container my-5 text-white">
+	<div class="row">
+		<div id="card" class="overflow-hidden ms-lg-5 col-lg-4 col-md-6 mb-4">
 			<!-- svelte-ignore a11y-img-redundant-alt -->
-			<img src={data.image.imageFile} alt="image" class="w-100 h-100" style="object-fit:cover" />
+			<img
+				src={data.image.imageFile}
+				alt="image"
+				class="w-100 h-100 rounded-5"
+				style="object-fit:cover"
+			/>
 		</div>
-	</div>
-	<div class="ms-5 w-100" style="cursor: default;" >
-		<h1>
-			{data.image.title}
-			<img style="height: 25px;" class="mb-1" src="/icons8-verified-48.png" alt="verified" />
-		</h1>
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<p>Owned By <label class="text-primary">{data.image.userName}</label></p>
-		<SvelteMarkdown source={data.image.desc} />
-		<div
-			class="p-3 mt-5 rounded-3 shadow"
-			style="background-color:#272A2E; border:0.5px solid #353840;"
-		>
-			<p style="color:#8A939B">Current Price</p>
-			<div class="d-flex justify-content-between">
-				<div>
-					<p class="fw-bold" style="font-size: 2em;">
-						<svg
-							style="color: white; height: 30px;"
-							class="me-2"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 40 325 512"
-							><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path
-								d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
-								fill="white"
-							/></svg
-						>{humanize.formatNumber(data.image.price, 2)} ETH
-					</p>
-					{#await getEthToUsdRate()}
-						<p style="color:#8A939B">Loading...</p>
-					{:then res}
-						<p class="ms-1" style="color:#8A939B">$ {humanize.formatNumber(res, 2)}</p>
-					{/await}
+		<div class="ms-lg-4 col-lg-7 col-md-6 col-11" style="cursor: default;">
+			<h1>
+				{data.image.title}
+				<img style="height: 25px;" class="mb-1" src="/icons8-verified-48.png" alt="verified" />
+			</h1>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
+			<p>Owned By <label class="text-primary">{data.image.userName}</label></p>
+			<SvelteMarkdown source={data.image.desc} />
+			<div
+				class="p-3 mt-5 rounded-3 shadow"
+				style="background-color:#272A2E; border:0.5px solid #353840;"
+			>
+				<p style="color:#8A939B">Current Price</p>
+				<div class="d-lg-flex justify-content-between">
+					<div>
+						<p class="fw-bold" style="font-size: 2em;">
+							<svg
+								style="color: white; height: 30px;"
+								class="me-2"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 40 325 512"
+								><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path
+									d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
+									fill="white"
+								/></svg
+							>{humanize.formatNumber(data.image.price, 2)} ETH
+						</p>
+						{#await getEthToUsdRate()}
+							<p style="color:#8A939B">Loading...</p>
+						{:then res}
+							<p class="ms-1" style="color:#8A939B">$ {humanize.formatNumber(res, 2)}</p>
+						{/await}
+					</div>
+					<button
+						class="btn btn-primary fw-bold rounded-4 col-lg-7 col-12 me-5"
+						style="height: 70px"
+						on:click={checkOut(data.image.id)}>Buy now</button
+					>
 				</div>
-				<button
-					class="btn btn-primary fw-bold rounded-4 w-50 me-5"
-					style="height: 70px"
-					on:click={checkOut(data.image.id)}>Buy now</button
-				>
 			</div>
 		</div>
 	</div>
 </div>
 
 <style>
+	#card{
+		width: 425px;
+		height: 600px;
+	}
 	#card::before {
 		content: '';
 		position: absolute;
-		width: 500px;
+		width: 400px;
 		height: 600px;
 		box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
 		z-index: -1;
@@ -102,6 +111,17 @@
 		animation-iteration-count: infinite;
 		border-radius: 30px;
 	}
+	@media only screen and (max-width: 600px) {
+		#card::before {
+			width: 300px;
+			height: 300px;
+		}
+		#card {
+			width: 325px;
+			height: 300px;
+		}
+	}
+
 	@-webkit-keyframes yellow-shadow {
 		0% {
 			top: 0;

@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	import humanize from 'humanize-plus';
+	import Slide from '../lib/slide/+page.svelte';
 
 	function calDate(input) {
 		const creationDate = new Date(input);
@@ -33,16 +34,15 @@
 	}
 </script>
 
-<!-- <svelte:head>
-	<script src="/aws-sdk-s3.min.js"></script>
-</svelte:head> -->
-
-<div class="text-center container py-5 vh-100 text-light">
+<div class="text-center container vh-100 text-light">
+	<div class="invisible-sm">
+		<Slide />
+	</div>
 	<h4 class="mt-4 mb-5"><strong>Top Collectibles</strong></h4>
 
 	<div class="row">
 		{#each data.images as image}
-			<div class="col-lg-4 col-md-6 mb-4 col-12">
+			<div class="col-lg-4 col-md-6 mb-4 col-12" >
 				<div
 					class="card text-start shadow rounded-5 text-light z-1"
 					style="background-color:#303339; position:relative;"

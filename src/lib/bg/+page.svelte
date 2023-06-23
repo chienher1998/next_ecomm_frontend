@@ -173,21 +173,22 @@
 		/>
 	</div>
 </div>
-
+<div>
+	
+</div>
 <style>
 	.con {
 		filter: blur(3px);
-		top: 10%;
+		top: 5rem;
 		position: absolute;
 		overflow: hidden;
 		display: flex;
-		height: 500px;
 		width: 100%;
 		margin: 0 auto;
 	}
 	.con1 {
 		filter: blur(3px);
-		top: 70%;
+		top: 32rem;
 		position: absolute;
 		overflow: hidden;
 		display: flex;

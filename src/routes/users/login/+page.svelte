@@ -23,7 +23,7 @@
 <body>
 	<div class="container py-4">
 		<div class="row align-items-center">
-			<div class="col-1" />
+			<div class=	"col-1" />
 			<div class="col-lg-5">
 				<div
 					class="card cascading-right rounded-5"

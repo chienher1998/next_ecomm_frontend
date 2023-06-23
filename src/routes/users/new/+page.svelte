@@ -1,7 +1,7 @@
 <script>
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
-	import Background from '../../../lib/bg/+page.svelte'
+	import Background from '../../../lib/bg/+page.svelte';
 
 	let formErrors = {};
 
@@ -37,8 +37,8 @@
 	}
 </script>
 
-<Background/>
-<div class="mask d-flex align-items-center h-100 m-5">
+<Background />
+<div class="mask d-flex align-items-center h-100 my-5">
 	<div class="container h-100">
 		<div class="row d-flex justify-content-center align-items-center h-100">
 			<div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -86,9 +86,6 @@
 									aria-labelledby="passwordHelpBlock"
 									required
 								/>
-								{#if 'password' in formErrors}
-									<span class="text-danger">{formErrors['password'].message}</span>
-								{/if}
 								<label for="floatingInput" class="text-muted">Create Password</label>
 							</div>
 
@@ -101,6 +98,9 @@
 									aria-labelledby="passwordHelpBlock"
 									required
 								/>
+								{#if 'password' in formErrors}
+									<span class="text-danger">{formErrors['password'].message}</span>
+								{/if}
 								<label for="floatingInput" class="text-muted">Repeat Password</label>
 							</div>
 
