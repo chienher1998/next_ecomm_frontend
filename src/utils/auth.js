@@ -1,6 +1,8 @@
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 import { writable } from 'svelte/store';
 
+export const currentPage = writable(1);
+
 export const isLoggedInStore = writable(false);
 
 const emptyAuth = {
@@ -16,7 +18,9 @@ export function logOut() {
 export function getUserId() {
 	const auth = localStorage.getItem('auth');
 	if (auth) {
-		return JSON.parse(auth)['userId'];
+		const data = JSON.parse(auth);
+		const id = JSON.stringify(data.id);
+		return id;
 	}
 	return null;
 }

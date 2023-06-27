@@ -1,7 +1,9 @@
 <script>
 	export let data;
+	let items = data.images;
 	import humanize from 'humanize-plus';
 	import Slide from '../lib/slide/+page.svelte';
+	import { paginate, PaginationNav } from 'svelte-paginate';
 
 	function calDate(input) {
 		const creationDate = new Date(input);
@@ -32,17 +34,20 @@
 
 		return timeElapsed;
 	}
+	let currentPage = 1;
+	let pageSize = 9;
+	$: paginatedItems = paginate({ items, pageSize, currentPage });
 </script>
 
-<div class="text-center container vh-100 text-light">
+<div class="text-center container text-light">
 	<div class="invisible-sm">
 		<Slide />
 	</div>
 	<h4 class="mt-4 mb-5"><strong>Top Collectibles</strong></h4>
 
 	<div class="row">
-		{#each data.images as image}
-			<div class="col-lg-4 col-md-6 mb-4 col-12" >
+		{#each paginatedItems as image}
+			<div class="col-lg-4 col-md-6 mb-4 col-12">
 				<div
 					class="card text-start shadow rounded-5 text-light z-1"
 					style="background-color:#303339; position:relative;"
@@ -93,10 +98,55 @@
 				</div>
 			</div>
 		{/each}
+		<div class="pagination-nav">
+			<PaginationNav
+				class="pagination-container"
+				totalItems={items.length}
+				{pageSize}
+				{currentPage}
+				limit={1}
+				showStepOptions={true}
+				on:setPage={(e) => (currentPage = e.detail.page)}
+			/>
+		</div>
 	</div>
 </div>
 
 <style>
+	.pagination-nav {
+		background-color: #303339;
+		border-radius: 2rem;
+		margin: 1.5rem auto;
+		padding: 15px;
+		filter: drop-shadow(5px 5px 10px #161616);
+	}
+
+	.pagination-nav :global(.option) {
+		padding: 8px;
+		margin: 0 4px;
+		color: white;
+		border: none;
+		cursor: pointer;
+	}
+	.pagination-nav :global(.option.next) {
+		background-color: rgb(89, 89, 89);
+		border-radius: 100%;
+		padding: 5px 5px 10px 5px;
+	}
+	.pagination-nav :global(.option.prev) {
+		background-color: rgb(89, 89, 89);
+		border-radius: 100%;
+		padding: 5px 2px 10px 5px;
+	}
+	.pagination-nav :global(.option.active) {
+		border-radius: 100%;
+		padding: 5px 10px 8px 12px;
+		background-color: rgb(89, 89, 89);
+	}
+	.pagination-nav :global(.option.prev) {
+		color: white;
+	}
+
 	img {
 		transition: 0.3s ease;
 	}

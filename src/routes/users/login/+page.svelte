@@ -1,9 +1,10 @@
 <script>
 	import { authenticateUser } from '../../../utils/auth.js';
 	import { goto } from '$app/navigation';
+	import { displayAlert} from '../../../lib/alert/page.js'
 
 	let formErrors = {};
-
+	
 	async function logInUser(evt) {
 		evt.preventDefault();
 		const userData = {
@@ -14,8 +15,11 @@
 
 		if (resp.success) {
 			goto('/');
+			displayAlert('Login Successful !','alert-success');
 		} else {
-			formErrors = resp.res;
+			displayAlert('Username/ Password Invalid !','alert-danger');
+			// formErrors = resp.res;
+
 		}
 	}
 </script>
@@ -42,6 +46,7 @@
 									name="email"
 									class="form-control p-3"
 									placeholder="mail@example.com"
+									required
 								/>
 							</div>
 							<div class="form-outline mb-4">
@@ -51,10 +56,11 @@
 									name="password"
 									class="form-control p-3"
 									placeholder="min of 6 characters"
+									required
 								/>
-								{#if 'error' in formErrors}
+								<!-- {#if 'error' in formErrors}
 									<span class="text-danger">{formErrors.error}</span>
-								{/if}
+								{/if} -->
 							</div>
 							<div class="d-flex justify-content-center">
 								<button

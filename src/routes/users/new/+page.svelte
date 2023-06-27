@@ -2,6 +2,7 @@
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import Background from '../../../lib/bg/+page.svelte';
+	import { displayAlert} from '../../../lib/alert/page.js'
 
 	let formErrors = {};
 
@@ -28,7 +29,7 @@
 		});
 		if (resp.status == 200) {
 			goto('/users/login');
-			console.log('sign up succeed');
+			displayAlert('Create User Successful !','alert-success');
 		} else {
 			const res = await resp.json();
 			formErrors = res.error;

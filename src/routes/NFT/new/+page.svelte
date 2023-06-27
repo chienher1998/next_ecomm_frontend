@@ -3,12 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { uploadMedia } from '../../../utils/s3-uploader';
 	import { getTokenFromLocalStorage } from '../../../utils/auth.js';
+	import { displayAlert} from '../../../lib/alert/page.js'
 
 	let formErrors = {};
 
 	async function uploadImage(evt) {
 		const [fileName, fileUrl] = await uploadMedia(evt.target['file'].files[0]);
-		console.log(fileUrl);
 		const imageData = {
 			title: evt.target['imageTitle'].value,
 			desc: evt.target['desc'].value,
@@ -26,8 +26,8 @@
 		});
 		if (resp.status == 200) {
 			goto('/');
-			console.log('post image succeed');
-		} else {
+			displayAlert('Post Successful !','alert-success');
+		} else { 	
 			const res = await resp.json();
 			console.log(res.error);
 			formErrors = res.error;
@@ -61,7 +61,7 @@
 			<textarea
 				class="form-control bg-dark text-white"
 				name="desc"
-				rows="5"
+				rows="6"
 				placeholder="Provide a detailed description of your item"
 				required
 			/>
@@ -100,11 +100,11 @@
 			<small class="mb-3" style="color:#8A939B"
 				>File types supported: JPG, PNG, GIF. Max Size: 100 MB</small
 			>
-			<input class="form-control mb-5 bg-dark text-white" type="file" required />
-			{#if 'file' in formErrors}
+			<input class="form-control mb-5 bg-dark text-white" name="file" type="file"/>
+			<!-- {#if 'file' in formErrors}
 				<span class="text-danger">{formErrors.file}</span>
-			{/if}
-			<button class="btn btn-primary p-2">Upload</button>
+			{/if} -->
+			<button class="btn btn-primary p-2 fw-bold">Upload</button>
 		</div>
 	</form>
 </div>
