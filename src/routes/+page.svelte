@@ -25,7 +25,7 @@
 			//convert 60sec to miliseconds
 			// If more than 1 minute has passed, display the number of minutes
 			const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-			timeElapsed = `${minutesDiff} miniutes ago`;
+			timeElapsed = `${minutesDiff} minutes ago`;
 		} else {
 			// Display the number of seconds
 			const secondsDiff = Math.floor(timeDiff / 1000);
@@ -58,7 +58,7 @@
 						class="overflow-hidden rounded-top-5"
 						style="height:300px; index-z:-5;"
 					>
-						<img src={image.imageFile} class="w-100 h-100" style="object-fit: cover" />
+						<img src={image.imageFile} alt={image.imageName} class="w-100 h-100" style="object-fit: cover" />
 					</a>
 					<div class="card-body d-flex">
 						<!-- svelte-ignore a11y-invalid-attribute -->
@@ -114,11 +114,8 @@
 
 <style>
 	.pagination-nav {
-		background-color: #303339;
-		border-radius: 2rem;
-		margin: 1.5rem auto;
+		margin: 2rem auto;
 		padding: 15px;
-		filter: drop-shadow(5px 5px 10px #161616);
 	}
 
 	.pagination-nav :global(.option) {

@@ -2,14 +2,19 @@
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import Background from '../../../lib/bg/+page.svelte';
-	import { displayAlert} from '../../../lib/alert/page.js'
+	import { displayAlert } from '../../../lib/alert/page.js';
+	import { _statusSpinner } from '../../../lib/spinner/+page.js';
+	import Spinner from '../../../lib/spinner/+page.svelte';
 
 	let formErrors = {};
 
 	async function createUser(evt) {
 		evt.preventDefault();
+		_statusSpinner.set(true);
+
 		if (evt.target['password'].value != evt.target['password-confirmation'].value) {
-			formErrors['password'] = { message: 'Password confirmation does not match' };
+			formErrors['confirm-password'] = { message: 'Password confirmation does not match' };
+			_statusSpinner.set(false);
 			return;
 		}
 
@@ -28,9 +33,11 @@
 			body: JSON.stringify(userData)
 		});
 		if (resp.status == 200) {
+			_statusSpinner.set(false);
 			goto('/users/login');
-			displayAlert('Create User Successful !','alert-success');
+			displayAlert('Create User Successful !', 'alert-success');
 		} else {
+			_statusSpinner.set(false);
 			const res = await resp.json();
 			formErrors = res.error;
 			throw 'Sign up succeeded but authentication failed';
@@ -99,18 +106,29 @@
 									aria-labelledby="passwordHelpBlock"
 									required
 								/>
+								{#if 'confirm-password' in formErrors}
+									<span class="text-danger">{formErrors['confirm-password'].message}</span>
+								{/if}
 								{#if 'password' in formErrors}
-									<span class="text-danger">{formErrors['password'].message}</span>
+									<span class="text-danger">{formErrors.password}</span>
 								{/if}
 								<label for="floatingInput" class="text-muted">Repeat Password</label>
 							</div>
 
 							<div class="d-flex justify-content-center">
-								<button
-									type="submit"
-									class="btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
-									>Register</button
-								>
+								{#if $_statusSpinner}
+									<button
+										type="submit"
+										class="disabled btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
+										><Spinner /></button
+									>
+								{:else}
+									<button
+										type="submit"
+										class="btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
+										>Register</button
+									>
+								{/if}
 							</div>
 
 							<p class="text-center text-muted mt-5 mb-0">

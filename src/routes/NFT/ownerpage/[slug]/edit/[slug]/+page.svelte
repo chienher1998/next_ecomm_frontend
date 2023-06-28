@@ -1,27 +1,48 @@
 <script>
+	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+	import { getTokenFromLocalStorage, getUserId } from '../../../../../../utils/auth';
+	import { goto } from '$app/navigation';
+	import { displayAlert } from '../../../../../../lib/alert/page';
+	import { _statusSpinner } from '../../../../../../lib/spinner/+page';
+	import Spinner from '../../../../../../lib/spinner/+page.svelte';
 	export let data;
+
+	if (!getUserId()) {
+		goto('/users/login');
+	}
+
+	async function updateImage(evt) {
+		_statusSpinner.set(true)
+		evt.preventDefault();
+		const imageData = {
+			title: evt.target['imageTitle'].value,
+			desc: evt.target['desc'].value,
+			price: evt.target['price'].value
+		};
+
+		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/image/${data.image.id}`, {
+			method: 'PATCH',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getTokenFromLocalStorage()}`
+			},
+			body: JSON.stringify(imageData)
+		});
+		if (resp.status == 200) {
+			goto('/');
+			_statusSpinner.set(false)
+			displayAlert('Update Successful !', 'alert-success');
+		} else {
+			_statusSpinner.set(false)
+			const res = await resp.json();
+			formErrors = res.error;
+			throw 'authentication failed';
+		}
+	}
 </script>
 
 <div class="container my-5 text-white">
-	<!-- <button
-		on:click={() => {
-			history.back();
-		}}
-		class="btn btn-secondary rounded-5 shadow-lg"
-		><svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="30"
-			height="30"
-			fill="currentColor"
-			class="bi bi-arrow-left-short"
-			viewBox="0 0 16 16"
-		>
-			<path
-				fill-rule="evenodd"
-				d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
-			/>
-		</svg></button
-	> -->
 	<div class="row my-5">
 		<div id="card" class="overflow-hidden ms-lg-5 col-lg-4 col-md-6 mb-4">
 			<!-- svelte-ignore a11y-img-redundant-alt -->
@@ -39,11 +60,11 @@
 			<div class="mb-4">
 				<h1 class="fw-bold">Edit Item</h1>
 				<small style="color:#8A939B"
-					>Please leave the box blank if you dont not wish to update the respective information.</small
+					>Please don't modify the existing info if you dont not wish to update the respective information.</small
 				>
 			</div>
 
-			<form class="text-white">
+			<form on:submit|preventDefault={updateImage} class="text-white">
 				<div class="mb-3">
 					<label for="exampleFormControlInput1" class="form-label fw-bold">Name *</label>
 					<input
@@ -97,18 +118,11 @@
 						required
 					/>
 				</div>
-				<div class="d-flex flex-column">
-					<span class="form-label fw-bold">Image *</span>
-					<small class="mb-3" style="color:#8A939B"
-						>File types supported: JPG, PNG, GIF. Max Size: 100 MB</small
-					>
-					<input class="form-control mb-5 bg-dark text-white" name="file" type="file" />
-
-					<!-- {#if 'file' in formErrors}
-                        <span class="text-danger">{formErrors.file}</span>
-                    {/if} -->
-					<button class="btn btn-primary p-2 fw-bold">Upload</button>
-				</div>
+				{#if $_statusSpinner}
+				<button class="btn btn-primary p-2 fw-bold w-100 mt-2 disabled"><Spinner/></button>
+				{:else}
+				<button class="btn btn-primary p-2 fw-bold w-100 mt-2"><Spinner/>Update</button>
+				{/if}
 			</form>
 		</div>
 	</div>
@@ -118,5 +132,14 @@
 	#card {
 		width: 425px;
 		height: 600px;
+	}
+
+	::placeholder {
+		color: gray;
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
 </style>

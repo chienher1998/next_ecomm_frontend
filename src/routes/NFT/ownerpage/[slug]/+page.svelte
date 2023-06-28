@@ -2,23 +2,54 @@
 	export let data;
 	import humanize from 'humanize-plus';
 	import { getUserId } from '../../../../utils/auth';
+	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+	import { getTokenFromLocalStorage } from '../../../../utils/auth';
+	import { displayAlert } from '../../../../lib/alert/page';
 	import { goto } from '$app/navigation';
+
+	if(!getUserId()){
+		goto('/users/login')
+	}
+	var url = `/NFT/ownerpage/${getUserId}`;
+
+	async function deleteImage(id) {
+		console.log(id);
+		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/image/${id}`, {
+			method: 'DELETE',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getTokenFromLocalStorage()}`
+			}
+		});
+		if (resp.status == 200) {
+			displayAlert('Delete Successful !', 'alert-success');
+			goto(url);
+		} else {
+			const res = await resp.json();
+			formErrors = res.error;
+			throw 'delete failed';
+		}
+	}
 </script>
 
 <div class="container my-5">
-	<h4 class="mt-4 mb-5 text-center text-white"><strong>Your Listing</strong></h4>
+	<h3 class="mt-4 mb-3 text-white"><strong>Listing</strong></h3>
+	<h6 class="text-secondary d-flex">
+		You may edit or delete your listing items from this page <p class="text-secondary ms-2 mb-5">
+			<small>*Please confirm your items before proceeding to click delete.</small>
+		</p>
+	</h6>
 	<div class="row">
+		
 		{#each data.images as image}
 			<div class="col-lg-4 col-md-6 mb-4 col-12">
 				<div
 					class="p-4 m-2 text-white shadow-lg rounded-5 d-flex"
 					style="background-color:#303339;"
 				>
-					<div class="overflow-hidden rounded" style="height:100px; width:100px">
-						<!-- svelte-ignore a11y-img-redundant-alt -->
-						<img src={image.imageFile} alt="image" class="w-100 h-100" style="object-fit: cover" />
-					</div>
-					<div class="ms-5">
+					<p class="text-secondary ms-2">#{image.id}</p>
+					<div class="ms-3 ">
 						<h4>{image.title}</h4>
 						<h6 class="text-secondary">
 							{humanize.formatNumber(image.price, 2)} ETH
@@ -51,6 +82,7 @@
 								class="btn btn-danger"
 								data-bs-toggle="modal"
 								data-bs-target="#delete"
+								on:click={deleteImage(image.id)}
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -65,37 +97,16 @@
 									/>
 								</svg>
 							</button>
-
-							<!-- Modal -->
-							<div
-								class="modal fade text-dark"
-								id="delete"
-								tabindex="-1"
-								aria-labelledby="exampleModalLabel"
-								aria-hidden="true"
-							>
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
-											<button
-												type="button"
-												class="btn-close"
-												data-bs-dismiss="modal"
-												aria-label="Close"
-											/>
-										</div>
-										<div class="modal-body">Are you sure you want to delete this listing?</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-												>Close</button
-											>
-											<button type="button" class="btn btn-danger">Delete</button>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
+					</div>
+					<div class="overflow-hidden rounded ms-5" style="height:110px; width:120px">
+						<!-- svelte-ignore a11y-img-redundant-alt -->
+						<img
+							src={image.imageFile}
+							alt={image.imageName}
+							class="w-100 h-100"
+							style="object-fit: cover"
+						/>
 					</div>
 				</div>
 			</div>

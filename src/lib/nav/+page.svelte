@@ -53,7 +53,7 @@
 						{#if $isLoggedInStore}
 							<li><a class="dropdown-item" href="/NFT/ownerpage/{getUserId()}">Listing</a></li>
 							<!-- svelte-ignore a11y-invalid-attribute -->
-							<li><a class="dropdown-item" href="/NFT/new">Post NFT</a></li>
+							<li><a class="dropdown-item" href="/NFT/new">Create Item</a></li>
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<!-- svelte-ignore a11y-missing-attribute -->
 							<li>

@@ -1,19 +1,40 @@
 <script>
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+	import { getUserId } from '../../../utils/auth';
 	import { goto } from '$app/navigation';
 	import { uploadMedia } from '../../../utils/s3-uploader';
 	import { getTokenFromLocalStorage } from '../../../utils/auth.js';
-	import { displayAlert} from '../../../lib/alert/page.js'
-
+	import { displayAlert } from '../../../lib/alert/page.js';
+	import { generateFileWithUniqueName } from '../../../utils/s3-uploader';
+	import { _statusSpinner } from '../../../lib/spinner/+page.js';
+	import Spinner from '../../../lib/spinner/+page.svelte';
+	
+	if (!getUserId()) {
+		goto('/users/login');
+	}
 	let formErrors = {};
 
 	async function uploadImage(evt) {
-		const [fileName, fileUrl] = await uploadMedia(evt.target['file'].files[0]);
+		_statusSpinner.set(true)
+		let image = evt.target['file'].files[0];
+		const file = generateFileWithUniqueName(image);
+
+		// checks whether there was a file attached or not
+		if (typeof image === 'undefined') {
+			return (formErrors['file'] = 'No file uploaded');
+
+			// checks if the file attached is of image type
+		} else if (!image.type.includes('image')) {
+			return (formErrors['file'] = 'Must be an image');
+		}
+
+		const [fileName, fileUrl] = await uploadMedia(file);
 		const imageData = {
 			title: evt.target['imageTitle'].value,
 			desc: evt.target['desc'].value,
 			price: evt.target['price'].value,
-			imageFile: fileUrl
+			imageFile: fileUrl,
+			imageName: fileName
 		};
 		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/image', {
 			method: 'POST',
@@ -25,9 +46,11 @@
 			body: JSON.stringify(imageData)
 		});
 		if (resp.status == 200) {
+			_statusSpinner.set(false)
 			goto('/');
-			displayAlert('Post Successful !','alert-success');
-		} else { 	
+			displayAlert('Post Successful !', 'alert-success');
+		} else {
+			_statusSpinner.set(false)
 			const res = await resp.json();
 			console.log(res.error);
 			formErrors = res.error;
@@ -40,7 +63,10 @@
 	<script src="/aws-sdk-s3.min.js"></script>
 </svelte:head>
 
-<div class="container p-5 my-5 text-white col-lg-5 shadow-lg rounded-5" style="background-color: #272A2E;">
+<div
+	class="container p-5 my-5 text-white col-lg-5 shadow-lg rounded-5"
+	style="background-color: #272A2E;"
+>
 	<h1 class="mb-5 fw-bold">Create New Item</h1>
 	<form on:submit|preventDefault={uploadImage} class="text-white">
 		<div class="mb-3">
@@ -67,9 +93,7 @@
 			/>
 		</div>
 		<label for="exampleFormControlInput1" class="form-label fw-bold">Price *</label><br />
-		<small style="color:#8A939B"
-			>The maximum amount of etherium can be listed is 500</small
-		>
+		<small style="color:#8A939B">The maximum amount of etherium can be listed is 500</small>
 		<div class="input-group mb-4 mt-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text bg-dark"
@@ -97,14 +121,16 @@
 		</div>
 		<div class="d-flex flex-column">
 			<span class="form-label fw-bold">Image *</span>
-			<small class="mb-3" style="color:#8A939B"
-				>File types supported: JPG, PNG, GIF. Max Size: 100 MB</small
-			>
-			<input class="form-control mb-5 bg-dark text-white" name="file" type="file"/>
-			<!-- {#if 'file' in formErrors}
+			<small class="mb-3" style="color:#8A939B">File types supported: JPG, PNG, GIF</small>
+			<input class="form-control bg-dark text-white" name="file" type="file" />
+			{#if 'file' in formErrors}
 				<span class="text-danger">{formErrors.file}</span>
-			{/if} -->
-			<button class="btn btn-primary p-2 fw-bold">Upload</button>
+			{/if}
+			{#if $_statusSpinner}
+			<button class="btn btn-primary p-2 fw-bold mt-5 disabled"><Spinner/></button>
+			{:else}
+			<button class="btn btn-primary p-2 fw-bold mt-5">Upload</button>
+			{/if}
 		</div>
 	</form>
 </div>

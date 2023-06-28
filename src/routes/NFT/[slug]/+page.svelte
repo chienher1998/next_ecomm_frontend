@@ -3,8 +3,16 @@
 	import SvelteMarkdown from 'svelte-markdown';
 	import { goto } from '$app/navigation';
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+	import { isLoggedInStore, getTokenFromLocalStorage } from '../../../utils/auth';
+	import { displayAlert } from '../../../lib/alert/page.js';
+	import { _statusSpinner } from '../../../lib/spinner/+page.js';
+	import Spinner from '../../../lib/spinner/+page.svelte';
 	import humanize from 'humanize-plus';
 	import axios from 'axios';
+
+	function goLogin() {
+		goto('/users/login');
+	}
 
 	async function getEthToUsdRate() {
 		try {
@@ -22,18 +30,24 @@
 	}
 
 	async function checkOut(id) {
+		_statusSpinner.set(true);
 		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/create-checkout-session/${id}`, {
 			method: 'POST',
 			mode: 'cors',
 			headers: {
-				'Content-Type': 'application/json'
-				// Authorization: `Bearer ${getTokenFromLocalStorage()}`
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getTokenFromLocalStorage()}`
 			},
 			body: JSON.stringify({ id })
 		});
 		const res = await resp.json();
 		if (resp.status === 200) {
+			_statusSpinner.set(false);
 			goto(res);
+		} else {
+			_statusSpinner.set(false);
+			displayAlert(res.error, 'alert-danger')
+			throw 'failed to direct url';
 		}
 	}
 </script>
@@ -50,10 +64,13 @@
 			/>
 		</div>
 		<div class="ms-lg-4 col-lg-7 col-md-6 col-11" style="cursor: default;">
-			<h1>
-				{data.image.title}
-				<img style="height: 25px;" class="mb-1" src="/icons8-verified-48.png" alt="verified" />
-			</h1>
+			<div class="d-flex">
+				<h1 class="me-4" style="color:#8A939B">#{data.image.id}</h1>
+				<h1>
+					{data.image.title}
+					<img style="height: 25px;" class="mb-1" src="/icons8-verified-48.png" alt="verified" />
+				</h1>
+			</div>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<p>Owned By <label class="text-primary">{data.image.userName}</label></p>
 			<SvelteMarkdown source={data.image.desc} />
@@ -82,11 +99,27 @@
 							<p class="ms-1" style="color:#8A939B">$ {humanize.formatNumber(res, 2)}</p>
 						{/await}
 					</div>
-					<button
-						class="btn btn-primary fw-bold rounded-4 col-lg-7 col-12 me-5"
-						style="height: 70px"
-						on:click={checkOut(data.image.id)}>Buy now</button
-					>
+					{#if $isLoggedInStore}
+						{#if $_statusSpinner}
+							<button
+								class="disabled btn btn-primary fw-bold rounded-4 col-lg-7 col-12 me-5"
+								style="height: 70px"
+								on:click={checkOut(data.image.id)}><Spinner /></button
+							>
+						{:else}
+							<button
+								class="btn btn-primary fw-bold rounded-4 col-lg-7 col-12 me-5"
+								style="height: 70px"
+								on:click={checkOut(data.image.id)}>Buy now</button
+							>
+						{/if}
+					{:else}
+						<button
+							class="btn btn-primary fw-bold rounded-4 col-lg-7 col-12 me-5"
+							style="height: 70px"
+							on:click={goLogin}>Buy now</button
+						>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -94,7 +127,7 @@
 </div>
 
 <style>
-	#card{
+	#card {
 		width: 425px;
 		height: 600px;
 	}

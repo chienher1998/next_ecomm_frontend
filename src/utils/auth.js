@@ -1,8 +1,6 @@
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 import { writable } from 'svelte/store';
 
-export const currentPage = writable(1);
-
 export const isLoggedInStore = writable(false);
 
 const emptyAuth = {

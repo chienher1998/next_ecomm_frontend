@@ -1,12 +1,14 @@
 <script>
 	import { authenticateUser } from '../../../utils/auth.js';
 	import { goto } from '$app/navigation';
-	import { displayAlert} from '../../../lib/alert/page.js'
-
+	import { displayAlert } from '../../../lib/alert/page.js';
+	import { _statusSpinner } from '../../../lib/spinner/+page.js';
+	import Spinner from '../../../lib/spinner/+page.svelte';
 	let formErrors = {};
-	
+
 	async function logInUser(evt) {
 		evt.preventDefault();
+		_statusSpinner.set(true)
 		const userData = {
 			email: evt.target['email'].value,
 			password: evt.target['password'].value
@@ -15,11 +17,11 @@
 
 		if (resp.success) {
 			goto('/');
-			displayAlert('Login Successful !','alert-success');
+			_statusSpinner.set(false)
+			displayAlert('Login Successful !', 'alert-success');
 		} else {
-			displayAlert('Username/ Password Invalid !','alert-danger');
-			// formErrors = resp.res;
-
+			_statusSpinner.set(false)
+			formErrors = resp.res;
 		}
 	}
 </script>
@@ -27,7 +29,7 @@
 <body>
 	<div class="container py-4">
 		<div class="row align-items-center">
-			<div class=	"col-1" />
+			<div class="col-1" />
 			<div class="col-lg-5">
 				<div
 					class="card cascading-right rounded-5"
@@ -63,11 +65,19 @@
 								{/if} -->
 							</div>
 							<div class="d-flex justify-content-center">
-								<button
-									type="submit"
-									class="btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
-									>Log In</button
-								>
+								{#if $_statusSpinner}
+									<button
+										type="submit"
+										class="btn btn-success disabled btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
+										><Spinner /> </button
+									>
+								{:else}
+									<button
+										type="submit"
+										class="btn btn-success btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
+										><Spinner />Log In</button
+									>
+								{/if}
 							</div>
 
 							<p class="text-center text-muted mt-5 mb-0">

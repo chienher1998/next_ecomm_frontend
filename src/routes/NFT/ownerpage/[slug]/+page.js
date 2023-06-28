@@ -1,7 +1,7 @@
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 
 export async function load({ fetch, params }) {
-	const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/edit/all/${params.slug}`, {
+	const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/image/?users=${params.slug}`, {
 		method: 'GET',
 		mode: 'cors',
 		headers: {
