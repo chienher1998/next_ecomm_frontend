@@ -12,7 +12,7 @@
 	}
 
 	async function updateImage(evt) {
-		_statusSpinner.set(true)
+		_statusSpinner.set(true);
 		evt.preventDefault();
 		const imageData = {
 			title: evt.target['imageTitle'].value,
@@ -31,10 +31,10 @@
 		});
 		if (resp.status == 200) {
 			goto('/');
-			_statusSpinner.set(false)
+			_statusSpinner.set(false);
 			displayAlert('Update Successful !', 'alert-success');
 		} else {
-			_statusSpinner.set(false)
+			_statusSpinner.set(false);
 			const res = await resp.json();
 			formErrors = res.error;
 			throw 'authentication failed';
@@ -44,7 +44,7 @@
 
 <div class="container my-5 text-white">
 	<div class="row my-5">
-		<div id="card" class="overflow-hidden ms-lg-5 col-lg-4 col-md-6 mb-4">
+		<div id="card" class="overflow-hidden ms-lg-5 col-lg-4 col-md-6 mb-4 height-lg-100 h-25 mx-auto">
 			<!-- svelte-ignore a11y-img-redundant-alt -->
 			<img
 				src={data.image.imageFile}
@@ -60,7 +60,8 @@
 			<div class="mb-4">
 				<h1 class="fw-bold">Edit Item</h1>
 				<small style="color:#8A939B"
-					>Please don't modify the existing info if you dont not wish to update the respective information.</small
+					>Please don't modify the existing info if you dont not wish to update the respective
+					information.</small
 				>
 			</div>
 
@@ -84,7 +85,7 @@
 					<textarea
 						class="form-control bg-dark text-white"
 						name="desc"
-						rows= 10
+						rows="10"
 						placeholder="Provide a detailed description of your item"
 						value={data.image.desc}
 						required
@@ -119,9 +120,9 @@
 					/>
 				</div>
 				{#if $_statusSpinner}
-				<button class="btn btn-primary p-2 fw-bold w-100 mt-2 disabled"><Spinner/></button>
+					<button class="btn btn-primary p-2 fw-bold w-100 mt-2 disabled"><Spinner /></button>
 				{:else}
-				<button class="btn btn-primary p-2 fw-bold w-100 mt-2"><Spinner/>Update</button>
+					<button class="btn btn-primary p-2 fw-bold w-100 mt-2"><Spinner />Update</button>
 				{/if}
 			</form>
 		</div>
@@ -129,6 +130,11 @@
 </div>
 
 <style>
+	@media (min-width: 992px) {
+		.height-lg-100 {
+			height: 40rem !important;
+		}
+	}
 	#card {
 		width: 425px;
 		height: 600px;
