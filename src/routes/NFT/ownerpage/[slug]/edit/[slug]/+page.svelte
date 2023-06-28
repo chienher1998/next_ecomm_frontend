@@ -54,7 +54,7 @@
 			/>
 		</div>
 		<div
-			class="ms-5 p-5 text-white col-lg-7 shadow-lg rounded-5"
+			class="ms-lg-5 p-5 text-white col-lg-7 shadow-lg rounded-5"
 			style="background-color: #272A2E;"
 		>
 			<div class="mb-4">

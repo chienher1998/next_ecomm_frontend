@@ -24,7 +24,7 @@
 			return (formErrors['file'] = 'No file uploaded');
 
 			// checks if the file attached is of image type
-		} else if (!image.type.includes('image')) {
+		} else if (!image.type.includes('image')) {//mime type
 			return (formErrors['file'] = 'Must be an image');
 		}
 
@@ -52,7 +52,6 @@
 		} else {
 			_statusSpinner.set(false)
 			const res = await resp.json();
-			console.log(res.error);
 			formErrors = res.error;
 			throw 'post failed';
 		}
