@@ -84,7 +84,7 @@
 					<textarea
 						class="form-control bg-dark text-white"
 						name="desc"
-						rows="6"
+						rows= 10
 						placeholder="Provide a detailed description of your item"
 						value={data.image.desc}
 						required

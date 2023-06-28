@@ -12,6 +12,7 @@
 
 	function goLogin() {
 		goto('/users/login');
+		displayAlert('Please Login', 'alert-danger');
 	}
 
 	async function getEthToUsdRate() {
@@ -42,11 +43,11 @@
 		});
 		const res = await resp.json();
 		if (resp.status === 200) {
-			_statusSpinner.set(false);
 			goto(res);
-		} else {
 			_statusSpinner.set(false);
-			displayAlert(res.error, 'alert-danger')
+		} else {
+			displayAlert(res.error, 'alert-danger');
+			_statusSpinner.set(false);
 			throw 'failed to direct url';
 		}
 	}

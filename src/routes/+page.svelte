@@ -62,7 +62,7 @@
 					</a>
 					<div class="card-body d-flex">
 						<!-- svelte-ignore a11y-invalid-attribute -->
-						<div class="me-auto overflow-hidden" style="width: 70%;">
+						<div class="me-auto overflow-hidden" style="width:16rem;">
 							<a href="" class="text-reset text-decoration-none">
 								<h5 class="card-title mb-2 fw-bold">
 									{image.title}

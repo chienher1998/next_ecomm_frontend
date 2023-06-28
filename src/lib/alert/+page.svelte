@@ -4,7 +4,7 @@
 
 <div
 	id="alertbar"
-	class="alert {$alertType} d-flex align-items-center position-fixed"
+	class="alert {$alertType} d-flex align-items-center position-fixed mt-3"
 	role="alert"
 >
 	{#if $alertType === 'alert-success'}

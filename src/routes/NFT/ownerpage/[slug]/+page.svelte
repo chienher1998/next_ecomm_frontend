@@ -49,7 +49,7 @@
 					style="background-color:#303339;"
 				>
 					<p class="text-secondary ms-2">#{image.id}</p>
-					<div class="ms-3 ">
+					<div class="ms-3 overflow-hidden" style="width: 10rem;">
 						<h4>{image.title}</h4>
 						<h6 class="text-secondary">
 							{humanize.formatNumber(image.price, 2)} ETH
@@ -99,12 +99,12 @@
 							</button>
 						</div>
 					</div>
-					<div class="overflow-hidden rounded ms-5" style="height:110px; width:120px">
+					<div class="overflow-hidden rounded ms-3" style="height:110px; width:120px">
 						<!-- svelte-ignore a11y-img-redundant-alt -->
 						<img
 							src={image.imageFile}
 							alt={image.imageName}
-							class="w-100 h-100"
+							class="w-100 h-100 "
 							style="object-fit: cover"
 						/>
 					</div>
