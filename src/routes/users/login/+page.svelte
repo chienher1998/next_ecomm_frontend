@@ -8,7 +8,7 @@
 
 	async function logInUser(evt) {
 		evt.preventDefault();
-		_statusSpinner.set(true)
+		_statusSpinner.set(true);
 		const userData = {
 			email: evt.target['email'].value,
 			password: evt.target['password'].value
@@ -17,11 +17,12 @@
 
 		if (resp.success) {
 			goto('/');
-			_statusSpinner.set(false)
+			_statusSpinner.set(false);
 			displayAlert('Login Successful !', 'alert-success');
 		} else {
-			_statusSpinner.set(false)
+			_statusSpinner.set(false);
 			formErrors = resp.res;
+			displayAlert('Invalid User / Password', 'alert-danger');
 		}
 	}
 </script>
@@ -69,8 +70,8 @@
 									<button
 										type="submit"
 										class="btn btn-success disabled btn-block btn-lg w-50 gradient-custom-4 text-dark btn-raised shadow my-button"
-										><Spinner /> </button
-									>
+										><Spinner />
+									</button>
 								{:else}
 									<button
 										type="submit"

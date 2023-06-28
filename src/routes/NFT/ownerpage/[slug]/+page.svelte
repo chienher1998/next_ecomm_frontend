@@ -13,7 +13,6 @@
 	var url = `/NFT/ownerpage/${getUserId}`;
 
 	async function deleteImage(id) {
-		console.log(id);
 		const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/image/${id}`, {
 			method: 'DELETE',
 			mode: 'cors',
