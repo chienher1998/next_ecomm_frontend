@@ -93,7 +93,7 @@
 			/>
 		</div>
 		<label for="exampleFormControlInput1" class="form-label fw-bold">Price *</label><br />
-		<small style="color:#8A939B">The maximum amount of etherium can be listed is 500</small>
+		<small style="color:#8A939B">The maximum amount of etherium can be listed is 500. Maximum decimal is 0.01.</small>
 		<div class="input-group mb-4 mt-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text bg-dark"
