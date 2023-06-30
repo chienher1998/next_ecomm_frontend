@@ -44,7 +44,6 @@
 		<Slide />
 	</div>
 	<h4 class="mt-4 mb-5"><strong>Top Collectibles</strong></h4>
-
 	<div class="row">
 		{#each paginatedItems as image}
 			<div class="col-lg-4 col-md-6 mb-4 col-12">
@@ -58,7 +57,12 @@
 						class="overflow-hidden rounded-top-5"
 						style="height:300px; index-z:-5;"
 					>
-						<img src={image.imageFile} alt={image.imageName} class="w-100 h-100" style="object-fit: cover" />
+						<img
+							src={image.imageFile}
+							alt={image.imageName}
+							class="w-100 h-100"
+							style="object-fit: cover"
+						/>
 					</a>
 					<div class="card-body d-flex">
 						<!-- svelte-ignore a11y-invalid-attribute -->
